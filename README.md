@@ -57,6 +57,60 @@ Provides a clean navigation interface for all dashboards.
 
 ---
 
+#### Python code for visual
+
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+from mpl_toolkits.mplot3d import Axes3D
+
+import numpy as np
+
+df = dataset.groupby('ProcessingCentre')['Total Tests'].sum().reset_index()
+
+df = df.sort_values(by='Total Tests', ascending=False).head(8)
+
+x = np.arange(len(df))
+
+y = np.zeros(len(df))
+
+z = np.zeros(len(df))
+
+dx = np.ones(len(df)) * 0.6
+
+dy = np.ones(len(df)) * 0.6
+
+dz = df['Total Tests']
+
+fig = plt.figure(figsize=(10,6))
+
+ax = fig.add_subplot(111, projection='3d')
+
+colors = plt.cm.viridis(dz / max(dz))
+
+ax.bar3d(x, y, z, dx, dy, dz, color=colors, shade=True)
+
+ax.set_xlabel('Lab', labelpad=10)
+
+ax.set_ylabel('')
+
+ax.set_zlabel('Total Tests', labelpad=10)
+
+ax.set_xticks(x)
+
+ax.set_xticklabels(df['ProcessingCentre'], rotation=30, ha='right')
+
+ax.set_yticks([])
+
+plt.title("Top Labs by Test Volume (3D View)", pad=20)
+
+plt.tight_layout()
+
+plt.show()
+
+---
+
 ### 🟦 3. Performance Analysis
 - Department-wise performance  
 - Test-wise analysis  
